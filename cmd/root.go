@@ -127,7 +127,6 @@ so the game works properly with custom maps again
 			}
 
 			if !DryRun && hasMismatch {
-				infof("Will fix track %v", songInfo.Name())
 				var patchBpm float64
 
 				useFrom := func(d string) {
