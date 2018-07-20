@@ -1,0 +1,29 @@
+language: go
+
+go:
+  - "1.11beta2"
+
+env:
+  matrix:
+  - BUILD_OS=windows BUILD_ARCH=amd64 BIN_EXT=.exe
+  - BUILD_OS=linux BUILD_ARCH=amd64
+
+cache:
+  directories:
+    - $GOPATH
+
+script:
+  - GO111MODULE=on GOOS=${BUILD_OS} GOARCH=${BUILD_ARCH} go install # install stdlib with cross-compilation env
+  - GO111MODULE=on GOOS=${BUILD_OS} GOARCH=${BUILD_ARCH} go build -v -o releases/beatsaber_patcher_${BUILD_OS}_${BUILD_ARCH}${BIN_EXT}
+  - file releases/beatsaber_patcher_${BUILD_OS}_${BUILD_ARCH}${BIN_EXT}
+
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key:
+    secure: 0Us2dJO8bmFRx1NG4u1TSv9C1RPTxntHL+uctuZdJ0ed7EnSa+rjyboeeWR9OZs061+DLb96X1dJ8vHqd6oZ/GpSWO74dmyg4FpDsJ/vHk89GaEeMpoULBIX8XAQBF0CnnFYKc2Hyx5j7Ug/8+vyu7eOnx1AHSR9HHunWJWr/2oMFmB08f7Q0SNyt63ZUiqdobxyDkNg1GfrnrHykwUGtKaAJ0/+4W/MIAvSTu+OlKBy95wXiBnTbcHWeAhUmx5OqpFXW/+SJULpOIE5KNaimHgh83mJsZKO23ZnE8o0ObjZW2dKsdqCn3bQgWQ6iAo9b/vdqDsBNzpEf8LiyZpWjTZSFS8TjGyTmMjcYAy3pxy5pMxdgQhi5LuyOK0wphbjSYpKjH7Q5atY0mb/gtKRhXUtfoLvsAl3kOzGap76o144QCwaQ6zOIV/FCdRpbKFZj3OUuAt1eWz8q+GbkVesBKQi+umeK+eBJ8M/BP27J2Y1Wxqnk4XJpoqDJYlCv8XKIOOXfInTUz9vnByyXNQuUtgWVXQ/t/Wb+BpeJpS8uFHioYArHnhUx4oIiWVN0cNskpeBVKp3A3pkpMOzJGo9GcrH6Tlkm++3EvpU1wos7HHza3jOki9+yl7EtK8diGOBI7+YykjGMiOkaLjYDUT1KKhcj6d4c5w0xKVePkFlblc=
+  file_glob: true
+  file: releases/*
+  on:
+    repo: wgoodall01/beatsaber-patcher
+    tags: true
