@@ -8,10 +8,6 @@ env:
   - BUILD_OS=windows BUILD_ARCH=amd64 BIN_EXT=.exe
   - BUILD_OS=linux BUILD_ARCH=amd64
 
-cache:
-  directories:
-    - $GOPATH
-
 script:
   - GO111MODULE=on GOOS=${BUILD_OS} GOARCH=${BUILD_ARCH} go install # install stdlib with cross-compilation env
   - GO111MODULE=on GOOS=${BUILD_OS} GOARCH=${BUILD_ARCH} go build -v -o releases/beatsaber_patcher_${BUILD_OS}_${BUILD_ARCH}${BIN_EXT}
